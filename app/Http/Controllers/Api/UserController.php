@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+   
     }
 
     /**
@@ -152,4 +152,5 @@ class UserController extends Controller
             'message' => 'User deleted successfully'
         ], 200);
     }
+    
 }
