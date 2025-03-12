@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ImportController;
 
 
 /*
@@ -29,3 +30,5 @@ Route::delete('users/{id}', [UserController::class, 'destroy']);
 Route::patch('users/{id}', [UserController::class, 'update']);
 
 Route::get('users/{id}', [UserController::class, 'show']);
+
+Route::post('import-users', [ImportController::class, 'import']);
