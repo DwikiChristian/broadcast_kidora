@@ -29,6 +29,8 @@ Route::delete('users/{id}', [UserController::class, 'destroy']);
 
 Route::patch('users/{id}', [UserController::class, 'update']);
 
-Route::get('users/{id}', [UserController::class, 'show']);
-
 Route::post('import-users', [ImportController::class, 'import']);
+
+Route::get('/users/all', [UserController::class, 'showAll']); 
+
+Route::get('/users/search', [UserController::class, 'search']);

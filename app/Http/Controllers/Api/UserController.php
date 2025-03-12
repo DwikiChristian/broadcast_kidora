@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
+    
 
 class UserController extends Controller
 {
@@ -48,31 +50,6 @@ class UserController extends Controller
             'message' => 'User created successfully',
             'data' => $user
         ], 201);
-    }
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        // Mencari pengguna berdasarkan ID
-        $user = User::find($id);
-
-        // Jika pengguna tidak ditemukan
-        if (!$user) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'User not found'
-            ], 404);
-        }
-
-        // Mengembalikan response dengan data pengguna
-        return response()->json([
-            'status' => 'success',
-            'data' => $user
-        ], 200);
     }
 
     /**
@@ -152,5 +129,54 @@ class UserController extends Controller
             'message' => 'User deleted successfully'
         ], 200);
     }
-    
+    public function showAll()
+    {
+        $users = User::all();  // Mengambil semua data tanpa filter
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $users
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        // Ambil parameter pencarian dari request (name, nip, phone_number)
+        $query = User::query();
+
+        // Filter berdasarkan nama
+        if ($request->has('name') && $request->name != '') {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        // Filter berdasarkan nip
+        if ($request->has('nip') && $request->nip != '') {
+            $query->where('nip', 'like', '%' . $request->nip . '%');
+        }
+
+        // Filter berdasarkan phone_number
+        if ($request->has('phone_number') && $request->phone_number != '') {
+            $query->where('phone_number', 'like', '%' . $request->phone_number . '%');
+        }
+
+        // Ambil hasil filter dan urutkan berdasarkan nama A-Z
+        $users = $query->orderBy('name', 'asc')->get();
+
+        // Cek jika tidak ada data yang ditemukan
+        if ($users->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No users found matching the search criteria.'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $users
+        ]);
+    }
+
+
 }
+    
+
