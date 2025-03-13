@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ImportController;
-
+use App\Http\Controllers\Api\CloudinaryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +32,5 @@ Route::patch('users/{id}', [UserController::class, 'update']);
 Route::get('users/{id}', [UserController::class, 'show']);
 
 Route::post('import-users', [ImportController::class, 'import']);
+
+Route::post('cloudinary-upload', [CloudinaryController::class, 'upload']);
